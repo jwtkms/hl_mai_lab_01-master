@@ -273,7 +273,7 @@ namespace database
         return _post;
     }
 
-    long &Wall::post_id()
+    long Wall::get_post_id() const
     {
         return _post_id;
     }

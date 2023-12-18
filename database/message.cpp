@@ -82,9 +82,13 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement select(session);
             Message a;
-            select << "SELECT id FROM Message where from_user_id=?",
+            select << "SELECT id, fromUser_id, to_user_id, message FROM Message where from_user_id=?",
                 into(a._id),
-                use(a._from_user_id),
+                into(a._from_user_id),
+                into(a._to_user_id),
+                into(a._message),
+                
+                use(user_id),
                 range(0, 1); //  iterate over result set one row at a time
 
             select.execute();
@@ -185,8 +189,8 @@ namespace database
             insert << "INSERT INTO Message (id, from_user_id, to_user_id) VALUES(?, ?, ?, ?)",
                 use(_id),
                 use(_from_user_id),
-                use(_to_user_id),
-                use(_message),
+                use(to_user),
+                use(post),
 
 
             insert.execute();
