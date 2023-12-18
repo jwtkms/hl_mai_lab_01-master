@@ -82,9 +82,14 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement select(session);
             Wall a;
-            select << "SELECT id FROM Wall where user_id=?",
+            select << "SELECT id, user_id, post, post_id FROM Wall where user_id=?",
                 into(a._id),
-                use(a._user_id),
+                into(a._user_id),
+                into(a._post),
+                into(a._post_id),
+
+
+                use(user_id),
                 range(0, 1); //  iterate over result set one row at a time
 
             select.execute();
@@ -175,43 +180,43 @@ namespace database
         }
     }
 
-    void Wall::add_post(std::string post)
-    {
-        try
-        {
-            Poco::Data::Session session = database::Database::get().create_session();
-            Poco::Data::Statement insert(session);
+    // void Wall::add_post(std::string post)
+    // {
+    //     try
+    //     {
+    //         Poco::Data::Session session = database::Database::get().create_session();
+    //         Poco::Data::Statement insert(session);
             
-            insert << "INSERT INTO Wall (id, post, post_id) VALUES(?, ?, ?)",
-                use(_id),
-                use(_post),
-                use(_post_id),
+    //         insert << "INSERT INTO Wall (id, post, post_id) VALUES(?, ?, ?)",
+    //             use(_id),
+    //             use(_post),
+    //             use(_post_id);
 
-            insert.execute();
+    //         insert.execute();
 
-            Poco::Data::Statement select(session);
-            select << "SELECT LAST_INSERT_ID()",
-                into(_id),
-                range(0, 1); //  iterate over result set one row at a time
+    //         Poco::Data::Statement select(session);
+    //         select << "SELECT LAST_INSERT_ID()",
+    //             into(_id),
+    //             range(0, 1); //  iterate over result set one row at a time
 
-            if (!select.done())
-            {
-                select.execute();
-            }
-            std::cout << "inserted:" << _id << std::endl;
-        }
-        catch (Poco::Data::MySQL::ConnectionException &e)
-        {
-            std::cout << "connection:" << e.what() << std::endl;
-            throw;
-        }
-        catch (Poco::Data::MySQL::StatementException &e)
-        {
+    //         if (!select.done())
+    //         {
+    //             select.execute();
+    //         }
+    //         std::cout << "inserted:" << _id << std::endl;
+    //     }
+    //     catch (Poco::Data::MySQL::ConnectionException &e)
+    //     {
+    //         std::cout << "connection:" << e.what() << std::endl;
+    //         throw;
+    //     }
+    //     catch (Poco::Data::MySQL::StatementException &e)
+    //     {
 
-            std::cout << "statement:" << e.what() << std::endl;
-            throw;
-        }
-    }
+    //         std::cout << "statement:" << e.what() << std::endl;
+    //         throw;
+    //     }
+    // }
 
     void Wall::save_to_mysql()
     {
