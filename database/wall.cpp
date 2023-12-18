@@ -268,7 +268,7 @@ namespace database
         return _user_id;
     }
 
-    std::string &Wall::post()
+    const std::string &Wall::get_post() const
     {
         return _post;
     }
@@ -276,11 +276,6 @@ namespace database
     long &Wall::post_id()
     {
         return _post_id;
-    }
-
-    long Wall::get_id() const
-    {
-        return _id;
     }
 
     
