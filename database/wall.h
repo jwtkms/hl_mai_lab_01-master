@@ -34,7 +34,7 @@ namespace database
             static void init();
             
             static std::optional<Wall> read_by_id(long id);
-            static std::optional<long> get_wall(long& user_id);
+            // static std::optional<long> get_wall(long& user_id);
             static std::vector<Wall> read_all();
             // void add_post(std::string post);
             void save_to_mysql();
