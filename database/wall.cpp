@@ -75,7 +75,7 @@ namespace database
         return Wall;
     }
 
-    std::optional<Wall> Wall::read_by_id(long user_id)
+    std::optional<Wall> Wall::read_by_id(long id)
     {
         try
         {
@@ -89,7 +89,7 @@ namespace database
                 into(a._post_id),
 
 
-                use(user_id),
+                use(id),
                 range(0, 1); //  iterate over result set one row at a time
 
             select.execute();
