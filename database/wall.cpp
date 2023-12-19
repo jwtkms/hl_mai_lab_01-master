@@ -12,9 +12,13 @@
 #include <sstream>
 #include <exception>
 
+#include "user.h"
+
 using namespace Poco::Data::Keywords;
 using Poco::Data::Session;
 using Poco::Data::Statement;
+
+
 
 namespace database
 {
