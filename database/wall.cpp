@@ -30,8 +30,8 @@ namespace database
                         << "`user_id` INT NOT NULL,"
                         << "`post` VARCHAR(256) NOT NULL,"
                         << "`post_id` INT NOT NULL,"
-                        << "FOREIGN KEY ('user_id')  REFERENCES 'User' ('id'),"
-                        << "PRIMARY KEY (`id`),KEY `fn` (`first_name`),KEY `ln` (`last_name`));",
+                        << "PRIMARY KEY (`id`),KEY `fn` (`first_name`),KEY `ln` (`last_name`)),"
+                        << "FOREIGN KEY ('user_id')  REFERENCES 'User' ('id');",
                 now;
         }
 
