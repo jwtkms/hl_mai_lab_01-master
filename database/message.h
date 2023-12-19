@@ -34,7 +34,7 @@ namespace database
 
             static void init();
             static std::optional<Message> read_by_id(long to_user_id);
-            static std::vector<Message> read_all();
+            static std::vector<Message> read_all_users_messages(long to_user_id);
             void send_message(std::string post, long to_user_id);
             void save_to_mysql();
 

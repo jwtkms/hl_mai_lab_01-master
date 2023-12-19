@@ -146,7 +146,7 @@ namespace database
     //     return {};
     // }
 
-    std::vector<Message> Message::read_all()
+    std::vector<Message> Message::read_all_users_messages(long user_id)
     {
         try
         {
@@ -154,11 +154,12 @@ namespace database
             Statement select(session);
             std::vector<Message> result;
             Message a;
-            select << "SELECT id, user_id, post, post_id FROM Message",
+            select << "SELECT id, from_user_id, to_user_id, message FROM Message WHERE to_user_id LIKE ?",
                 into(a._id),
                 into(a._from_user_id),
                 into(a._to_user_id),
                 into(a._message),
+                use(user_id),
                 range(0, 1); //  iterate over result set one row at a time
 
             while (!select.done())

@@ -148,7 +148,7 @@ namespace database
     //     return {};
     // }
 
-    std::vector<Wall> Wall::read_all()
+    std::vector<Wall> Wall::show(long id)
     {
         try
         {
@@ -156,11 +156,12 @@ namespace database
             Statement select(session);
             std::vector<Wall> result;
             Wall a;
-            select << "SELECT id, user_id, post, post_id FROM Wall",
+            select << "SELECT id, user_id, post, post_id FROM Wall WHERE user_id LIKE &",
                 into(a._id),
                 into(a._user_id),
                 into(a._post),
                 into(a._post_id),
+                use(id),
                 range(0, 1); //  iterate over result set one row at a time
 
             while (!select.done())
@@ -171,6 +172,43 @@ namespace database
             return result;
         }
 
+        catch (Poco::Data::MySQL::ConnectionException &e)
+        {
+            std::cout << "connection:" << e.what() << std::endl;
+            throw;
+        }
+        catch (Poco::Data::MySQL::StatementException &e)
+        {
+
+            std::cout << "statement:" << e.what() << std::endl;
+            throw;
+        }
+    }
+
+    void Wall::add_new_post(long user_id, std::string post_content)
+    {
+        try
+        {
+            Poco::Data::Session session = database::Database::get().create_session();
+            Poco::Data::Statement insert(session);
+            
+            insert << "INSERT INTO Wall (user_id, post) VALUES(?, ?)",
+                use(user_id),
+                use(post_content);
+
+            insert.execute();
+
+            Poco::Data::Statement select(session);
+            select << "SELECT LAST_INSERT_ID()",
+                into(_id),
+                range(0, 1); //  iterate over result set one row at a time
+
+            if (!select.done())
+            {
+                select.execute();
+            }
+            std::cout << "inserted:" << _id << std::endl;
+        }
         catch (Poco::Data::MySQL::ConnectionException &e)
         {
             std::cout << "connection:" << e.what() << std::endl;
