@@ -33,8 +33,8 @@ namespace database
                         << "`from_user_id` INT NOT NULL,"
                         << "`to_user_id`INT NOT NULL,"
                         << "`message` VARCHAR(256) NOT NULL,"
-                        << "FOREIGN KEY ('to_user_id')  REFERENCES 'User' ('id'),"
-                        << "PRIMARY KEY (`id`),KEY `fn` (`first_name`),KEY `ln` (`last_name`));",
+                        << "FOREIGN KEY (`to_user_id`)  REFERENCES `User` (`id`),"
+                        << "PRIMARY KEY (`id`));",
                 now;
         }
 
