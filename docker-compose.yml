@@ -27,35 +27,49 @@ services:
       retries: 5
     volumes:
       - db-node-ex01-data:/var/lib/mysql
-volumes:
-  db-node-ex01-data:
 
-networks:
-  arch-network:
-    driver: "bridge"
-    external: false
-
-
-  # wall_service:
-  #   build:
-  #     context: wall_service
-  #     dockerfile: Dockerfile
-  #   container_name: wall_service
+  user_service: 
+    build:
+      context: user_service
+      dockerfile: Dockerfile
+    container_name: user_service
     
   
-  #   environment:
-  #     - DB_HOST=mai-db-node-ex01
-  #     - DB_PORT=3306
-  #     - DB_LOGIN=stud
-  #     - DB_PASSWORD=stud
-  #     - DB_DATABASE=archdb
-  #   ports:
-  #     - 8082:8082
-  #   networks:
-  #     - arch-network
-  #   depends_on:
-  #     mai-db-node-ex01:
-  #       condition: service_healthy
+    environment:
+      - DB_HOST=mai-db-node-ex01
+      - DB_PORT=3306
+      - DB_LOGIN=stud
+      - DB_PASSWORD=stud
+      - DB_DATABASE=archdb
+    ports:
+      - 8081:8081
+    networks:
+      - arch-network
+    depends_on:
+      mai-db-node-ex01:
+        condition: service_healthy
+
+
+  wall_service:
+    build:
+      context: wall_service
+      dockerfile: Dockerfile
+    container_name: wall_service
+    
+  
+    environment:
+      - DB_HOST=mai-db-node-ex01
+      - DB_PORT=3306
+      - DB_LOGIN=stud
+      - DB_PASSWORD=stud
+      - DB_DATABASE=archdb
+    ports:
+      - 8082:8082
+    networks:
+      - arch-network
+    depends_on:
+      mai-db-node-ex01:
+        condition: service_healthy
 
   # message_service:
   #   build:
@@ -89,3 +103,10 @@ networks:
   #   networks:
   #     - arch-network
 
+volumes:
+  db-node-ex01-data:
+
+networks:
+  arch-network:
+    driver: "bridge"
+    external: false
