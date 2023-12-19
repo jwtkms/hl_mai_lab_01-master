@@ -37,10 +37,10 @@ using Poco::Util::OptionCallback;
 using Poco::Util::OptionSet;
 using Poco::Util::ServerApplication;
 
-#include "http_request_factory.h"
-#include "../database/user.h"
+#include "http_user_request_factory.h"
+// #include "../database/user.h"
 
-class HTTPWebServer : public Poco::Util::ServerApplication
+class HTTPUSerWebServer : public Poco::Util::ServerApplication
 {
 public:
     int main([[maybe_unused]] const std::vector<std::string> &args)
