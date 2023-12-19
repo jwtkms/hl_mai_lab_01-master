@@ -28,63 +28,63 @@ services:
     volumes:
       - db-node-ex01-data:/var/lib/mysql
 
-  wall_service:
-    build:
-      context: wall_service
-      dockerfile: Dockerfile
-    container_name: wall_service
+#   wall_service:
+#     build:
+#       context: wall_service
+#       dockerfile: Dockerfile
+#     container_name: wall_service
     
   
-    environment:
-      - DB_HOST=mai-db-node-ex01
-      - DB_PORT=3306
-      - DB_LOGIN=stud
-      - DB_PASSWORD=stud
-      - DB_DATABASE=archdb
-    ports:
-      - 8082:8082
-    networks:
-      - arch-network
-    depends_on:
-      mai-db-node-ex01:
-        condition: service_healthy
+#     environment:
+#       - DB_HOST=mai-db-node-ex01
+#       - DB_PORT=3306
+#       - DB_LOGIN=stud
+#       - DB_PASSWORD=stud
+#       - DB_DATABASE=archdb
+#     ports:
+#       - 8082:8082
+#     networks:
+#       - arch-network
+#     depends_on:
+#       mai-db-node-ex01:
+#         condition: service_healthy
 
-  message_service:
-    build:
-      context: message_service
-      dockerfile: Dockerfile
-    container_name: message_service
+#   message_service:
+#     build:
+#       context: message_service
+#       dockerfile: Dockerfile
+#     container_name: message_service
     
   
-    environment:
-      - DB_HOST=mai-db-node-ex01
-      - DB_PORT=3306
-      - DB_LOGIN=stud
-      - DB_PASSWORD=stud
-      - DB_DATABASE=archdb
-    ports:
-      - 8083:8083
-    networks:
-      - arch-network
-    depends_on:
-      mai-db-node-ex01:
-        condition: service_healthy
-  # other_server:
-  #   build:
-  #     context: other_server
-  #     dockerfile: Dockerfile
-  #   container_name: other_server
-  #   environment:
-  #     - SERVICE_HOST=my_service
-  #   ports:
-  #     - 8081:8081
-  #   networks:
-  #     - arch-network
+#     environment:
+#       - DB_HOST=mai-db-node-ex01
+#       - DB_PORT=3306
+#       - DB_LOGIN=stud
+#       - DB_PASSWORD=stud
+#       - DB_DATABASE=archdb
+#     ports:
+#       - 8083:8083
+#     networks:
+#       - arch-network
+#     depends_on:
+#       mai-db-node-ex01:
+#         condition: service_healthy
+#   # other_server:
+#   #   build:
+#   #     context: other_server
+#   #     dockerfile: Dockerfile
+#   #   container_name: other_server
+#   #   environment:
+#   #     - SERVICE_HOST=my_service
+#   #   ports:
+#   #     - 8081:8081
+#   #   networks:
+#   #     - arch-network
 
-volumes:
-  db-node-ex01-data:
+# volumes:
+#   db-node-ex01-data:
 
-networks:
-  arch-network:
-    driver: "bridge"
-    external: false
+# networks:
+#   arch-network:
+#     driver: "bridge"
+#     external: false
