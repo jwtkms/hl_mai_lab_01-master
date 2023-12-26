@@ -145,11 +145,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /show:
+  /wall:
     get:
       servers:
       - url: http://localhost:8082/ 
-      summary: Чтение информации о пользователе
+      summary: Отображение стены пользователя
       parameters:
       - name: id
         description: Уникальный идентификатор пользователя
@@ -163,9 +163,124 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: '#/components/schemas/user_id'
         404:
           description: У пользователя нет постов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      servers:
+      - url: http://localhost:8082/ 
+      summary: Запостить новое сообщение на стене пользователя
+      parameters:
+      - name: user_id
+        description: Уникальный идентификатор пользователя
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: post
+        description: Содержание нового поста
+        in: query
+        required: true
+        schema:
+          type: string
+
+      
+      responses:
+        '200':
+          description: Пост удачно добавлен
+          content:
+            application/json:
+              schema:
+                type: integer
+        404:
+          description: Ошибка добавления постa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /message:
+    get:
+      servers:
+        - url: http://localhost:8083
+      summary: Чтение входящих сообщений
+      parameters:
+      - name: user_id
+        description: Уникальный идентификатор пользователя
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/user_id'
+      responses:
+        200:
+          description: Найденный доклад
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/message'
+        404:
+          description: Доклад не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Добавление нового доклада
+      parameters:
+      - name: id
+        description: Уникальный идентификатор пользователя
+        in: query
+        required: true
+        schema:
+          type: integer
+          $ref: '#/components/schemas/user_id'
+      - name: to_user
+        description: Уникальный идентификатор получателя
+        in: query
+        required: true
+        schema:
+          type: integer
+          $ref: '#/components/schemas/user_id'
+      - name: message_content
+        description: Содержание сообщения
+        in: query
+        required: true
+        schema:
+          type: string
+          $ref: '#/components/schemas/message_content'
+          default: false
+      
+      responses:
+        '200':
+          description: Идентификатор, добавленного сообщения
+          content:
+            application/json:
+              schema:
+                type: integer
+        404:
+          description: Ошибка отправки сообщения
           content:
             application/json:
               schema:
@@ -187,6 +302,9 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/user'
+    wall_id:
+      type: integer
+      
     user:
       type: object
       required:
@@ -197,21 +315,17 @@ components:
         - title
         - login
         - password
+    message:
+      type: string
       properties:
         id:
           $ref: '#/components/schemas/user_id'
-        first_name:
-          type: string
-        last_name:
-          type: string
-        email:
-          type: string
-        title:
-          type: string
-        login:
-          type: string
-        password:
-          type: string
+        from_user:
+          $ref: '#/components/schemas/user_id'
+
+    message_content:
+      type: string
+        
     Error:
       type: object
       required:

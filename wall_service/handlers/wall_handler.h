@@ -93,7 +93,7 @@ public:
             }
             else if (request.getMethod() == Poco::Net::HTTPRequest::HTTP_POST)
             {
-                if (form.has("to_user_id")) 
+                if (form.has("user_id") && form.has("post")) 
                 {
                     database::Wall wall;
                     wall.user_id() = std::stol(form.get("user_id"));
